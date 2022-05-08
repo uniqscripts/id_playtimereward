@@ -26,3 +26,5 @@ This resource gives your players vehicle as a reward (can be changed very easily
 Every 60 minutes, the hour counter is moved by +1, making players being close to the prize, and every 60 seconds, 1 minute on the minute counter is reduced (when the minute counter is on 0, a hour will be added and a minute counter will be restarted).
 
 It is fully responsive, like any of our other resources that contain NUI.
+
+**Reward**, money amount, item, item count, plates (letters, numbers and spaces) and vehicle name that will be given as a reward can be configured in the **config.lua** file.
