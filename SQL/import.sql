@@ -1,2 +1,2 @@
 ALTER TABLE `users` 
-ADD COLUMN `hour` text DEFAULT '0';
+ADD COLUMN `hour` int(11) DEFAULT 0;
