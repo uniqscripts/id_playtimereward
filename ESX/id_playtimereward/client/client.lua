@@ -1,6 +1,8 @@
 ESX = nil
 local FirstSpawn = true
 local hours
+local EVENT = TriggerServerEvent
+local randomkljuc = 0
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -9,12 +11,15 @@ Citizen.CreateThread(function()
 	end
 end)
 
+RegisterNetEvent('id_playtimereward:client:randomkljuc')
+AddEventHandler('id_playtimereward:client:randomkljuc', function(key)
+    randomkljuc = key
+end)
+
 RegisterNetEvent("esx:playerSpawn")
 AddEventHandler("esx:playerSpawn", function()
 	Citizen.Wait(10000)
-
 	SetDisplay(not display)
-
 end)
 
 AddEventHandler('playerSpawned', function()
@@ -34,13 +39,13 @@ function SetDisplay(bool)
 			SendNUIMessage({action = 'whathour', value = hour})
 	end)
 
-	SendNUIMessage({action = 'howmuchhours', value = Config.Hours})
+	SendNUIMessage({action = 'howmuchhours', value = GlobalState.Hours})
 
-	SendNUIMessage({action = 'whatminute', value = Config.Minutes})
+	SendNUIMessage({action = 'whatminute', value = GlobalState.Minutes})
 end
 
 Citizen.CreateThread(function()
-	local minutes = Config.Minutes
+	local minutes = GlobalState.Minutes
 	while true do
 		Citizen.Wait(60000)
 		minutes = minutes - 1
@@ -50,8 +55,8 @@ Citizen.CreateThread(function()
 		SendNUIMessage({action = 'whatminute', value = minutes})
 		
 		if minutes == 0 then
-			TriggerServerEvent("id_playtimereward:addHour")
-			minutes = Config.Minutes
+			EVENT("id_playtimereward:addHour")
+			minutes = GlobalState.Minutes
 		
 			Citizen.Wait(500)
 			ESX.TriggerServerCallback("id_playtimereward:getHour", function(hour)
@@ -60,11 +65,11 @@ Citizen.CreateThread(function()
 		end
 			
 		ESX.TriggerServerCallback("id_playtimereward:getHour", function(hour)
-			if hour >= Config.Hours then
-				if Config.Reward == "vehicle" then
-					TriggerServerEvent("id_playtimereward:giveReward", plates)
+			if hour >= GlobalState.Hours then
+				if GlobalState.Reward == "vehicle" then
+					EVENT("id_playtimereward:giveReward", plates, randomkljuc)
 				else
-					TriggerServerEvent("id_playtimereward:giveReward")
+					EVENT("id_playtimereward:giveReward", randomkljuc)
 				end
 			end
 		end)
@@ -87,10 +92,10 @@ function GeneratePlate()
 	while true do
 		Citizen.Wait(0)
 		math.randomseed(GetGameTimer())
-		if Config.PlateUseSpace then
-			generatedPlate = string.upper(GetRandomLetter(Config.PlateLetters) .. ' ' .. GetRandomNumber(Config.PlateNumbers))
+		if GlobalState.PlateUseSpace then
+			generatedPlate = string.upper(GetRandomLetter(GlobalState.PlateLetters) .. ' ' .. GetRandomNumber(GlobalState.PlateNumbers))
 		else
-			generatedPlate = string.upper(GetRandomLetter(Config.PlateLetters) .. GetRandomNumber(Config.PlateNumbers))
+			generatedPlate = string.upper(GetRandomLetter(GlobalState.PlateLetters) .. GetRandomNumber(GlobalState.PlateNumbers))
 		end
 
 		ESX.TriggerServerCallback('id_playtimereward:isPlateTaken', function(isPlateTaken)
