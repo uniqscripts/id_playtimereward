@@ -1,0 +1,95 @@
+@import url('https://fonts.cdnfonts.com/css/akrobat');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	-webkit-user-drag: none;
+  	-khtml-user-drag: none;
+  	-moz-user-drag: none;
+  	-o-user-drag: none;
+}
+
+#container {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+}
+
+#background_h {
+	fill: url(#background_h);
+}
+
+.background_h {
+	transform: rotate(-3deg);
+	position: absolute;
+	overflow: visible;
+	width: 11.1458vw;
+	height: 19.4074vh;
+	left: 60.4688vw;
+	top: 82.5926vh;
+}
+
+#left {
+	transform: rotate(-3deg);
+	left: 64.1592vw;
+	top: 81.7593vh;
+	position: absolute;
+	overflow: visible;
+	width: 3.2292vw;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Akrobat;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 1.8229vw;
+	color: rgba(148,149,137,1);
+}
+
+#minutes {
+	transform: rotate(-3deg);
+	left: 61.8271vw;
+	top: 85.6481vh;
+	position: absolute;
+	overflow: visible;
+	width: 8.3333vw;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Akrobat;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 1.8229vw;
+	color: rgba(255,255,255,1);
+}
+
+#hours {
+	transform: rotate(-3deg);
+	left: 64.0583vw;
+	top: 89.537vh;
+	position: absolute;
+	overflow: visible;
+	width: 4.3229vw;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Akrobat;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 1.8229vw;
+	color: rgb(180, 180, 175);
+}
+
+#reward {
+	position: absolute;
+	width: 23.1979vw;
+	height: 30.2593vh;
+	left: 54.8042vw;
+	top: 82.3148vh;
+	overflow: visible;
+}
