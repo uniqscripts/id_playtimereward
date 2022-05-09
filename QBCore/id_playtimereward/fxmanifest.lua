@@ -5,7 +5,7 @@ lua54 'yes'
 name "id_playtimereward"
 description "Playtime Reward"
 author "grandson#6863"
-version "1.1.0"
+version "1.1.1"
 
 client_scripts {
     'client/*.lua',
