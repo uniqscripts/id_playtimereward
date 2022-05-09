@@ -31,13 +31,9 @@ AddEventHandler("id_playtimereward:addHour", function(spenthour, sifra)
         if(sifra ~= nil)then
             if(sifra == randomkljuc) then
                 if playingforhour then
-	                MySQL.Async.fetchScalar('SELECT hour FROM users WHERE identifier = @identifier', {
-	    	        ['@identifier'] = xPlayer.identifier
-	                }, function(hour)
+                    MySQL.scalar('SELECT hour FROM users WHERE identifier = ?', {xPlayer.identifier}, function(hour)
 	    	            if hour < GlobalState.Hours then
-                            MySQL.Sync.execute('UPDATE users SET hour = hour + 1 WHERE identifier = @identifier', {
-                            ['@identifier'] = xPlayer.identifier
-                        })
+                            MySQL.update('UPDATE users SET hour = hour + 1 WHERE identifier = ?', {xPlayer.identifier})
 	    	            end
 	                end)
                 else
@@ -55,9 +51,7 @@ end)
 ESX.RegisterServerCallback('id_playtimereward:getHour', function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer then -- Is Player in server?
-	    MySQL.Async.fetchScalar('SELECT hour FROM users WHERE identifier = @identifier', {
-		    ['@identifier'] = xPlayer.identifier
-	    }, function(hour)
+        MySQL.scalar('SELECT hour FROM users WHERE identifier = ?', {xPlayer.identifier}, function(hour)
             cb(hour)
 	    end)
     end
@@ -77,13 +71,9 @@ AddEventHandler("id_playtimereward:giveReward", function(plates, sifra)
     if xPlayer then -- Is Player in server?
         if(sifra ~= nil)then
             if(sifra == randomkljuc) then
-                MySQL.Async.fetchScalar('SELECT hour FROM users WHERE identifier = @identifier', {
-		        ['@identifier'] = xPlayer.identifier
-	            }, function(hour)
+                MySQL.scalar('SELECT hour FROM users WHERE identifier = ?', {xPlayer.identifier}, function(hour)
                 if hour >= GlobalState.Hours then
-                MySQL.Sync.execute('UPDATE users SET hour = 0 WHERE identifier = @identifier', {
-                    ['@identifier'] = xPlayer.identifier
-                })
+                MySQL.update('UPDATE users SET hour = 0 WHERE identifier = ?', {xPlayer.identifier})
                 if GlobalState.Reward == "vehicle" then
                     local mods =
                     '{"neonEnabled":[false,false,false,false],"modFrame":-1,"modEngine":3,"engineHealth":1000.0,"modSideSkirt":-1,"modFrontBumper":-1,"modOrnaments":-1,"health":995,"modGrille":-1,"modTransmission":2,"plate":"' ..
