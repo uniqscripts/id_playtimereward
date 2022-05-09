@@ -27,6 +27,7 @@ files {
 }
 
 dependencies {
+	'oxmysql', -- better to use oxmysql its faster and its updated like mysql-async..
 	'/onesync', -- onesync is required to script work.. because of globalstate
 	'es_extended'
 }
