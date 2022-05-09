@@ -5,11 +5,10 @@ lua54 'yes'
 name "id_playtimereward"
 description "Playtime Reward"
 author "grandson#6863"
-version "1.1.1"
+version "1.1.2"
 
 client_scripts {
     'client/*.lua',
-    'shared/*.lua',
 }
 
 server_scripts {
@@ -25,4 +24,9 @@ files {
     'web/script.js',
     'web/style.css',
     'web/img/*.png',
+}
+
+dependencies {
+	'/onesync', -- onesync is required to script work.. because of globalstate
+	'es_extended'
 }
