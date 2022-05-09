@@ -50,8 +50,6 @@ Citizen.CreateThread(function()
 		Citizen.Wait(60000)
 		minutes = minutes - 1
 
-		local plates = GeneratePlate()
-
 		SendNUIMessage({action = 'whatminute', value = minutes})
 		
 		if minutes == 0 then
@@ -67,6 +65,7 @@ Citizen.CreateThread(function()
 		ESX.TriggerServerCallback("id_playtimereward:getHour", function(hour)
 			if hour >= GlobalState.Hours then
 				if GlobalState.Reward == "vehicle" then
+					local plates = GeneratePlate()
 					EVENT("id_playtimereward:giveReward", plates, randomkljuc)
 				else
 					EVENT("id_playtimereward:giveReward", randomkljuc)
