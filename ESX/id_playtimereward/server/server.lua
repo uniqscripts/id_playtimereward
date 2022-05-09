@@ -58,11 +58,8 @@ ESX.RegisterServerCallback('id_playtimereward:getHour', function(source, cb)
 end)
 
 ESX.RegisterServerCallback('id_playtimereward:isPlateTaken', function (source, cb, plate)
-	MySQL.Async.fetchAll('SELECT * FROM owned_vehicles WHERE plate = @plate', {
-		['@plate'] = plate
-	}, function (result)
-		cb(result[1] ~= nil)
-	end)
+	local result = MySQL.query.await('SELECT * FROM owned_vehicles WHERE plate = ?', {plate})
+	cb(result[1] ~= nil)
 end)
 
 RegisterNetEvent("id_playtimereward:giveReward")
