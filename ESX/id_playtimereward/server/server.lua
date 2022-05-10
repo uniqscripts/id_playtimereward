@@ -6,10 +6,11 @@ local playingforhour = false
 local randomkey = math.random(1000000000000, 9999999999999)
 
 AddEventHandler('onResourceStart', function(resourceName)
-	if (GetCurrentResourceName() ~= resourceName) then return end
+    if (GetCurrentResourceName() ~= resourceName) then return end
     TriggerClientEvent('id_playtimereward:client:randomkey', source, randomkey)
 end)
 
+RegisterNetEvent('esx:onPlayerSpawn')
 AddEventHandler('esx:onPlayerSpawn',function(source)
     Wait(25000)
     TriggerClientEvent('id_playtimereward:client:randomkey', source, randomkey)
