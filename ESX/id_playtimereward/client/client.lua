@@ -41,7 +41,7 @@ end
 Citizen.CreateThread(function()
 	local minutes = GlobalState.Minutes
 	while true do
-		Citizen.Wait(100)
+		Citizen.Wait(60000)
 		minutes = minutes - 1
 
 		SendNUIMessage({action = 'whatminute', value = minutes})
