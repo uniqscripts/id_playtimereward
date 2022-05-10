@@ -16,12 +16,6 @@ AddEventHandler('id_playtimereward:client:randomkey', function(key)
     randomkey = key
 end)
 
-RegisterNetEvent("esx:playerSpawn")
-AddEventHandler("esx:playerSpawn", function()
-	Citizen.Wait(10000)
-	SetDisplay(not display)
-end)
-
 AddEventHandler('playerSpawned', function()
 	if FirstSpawn then
 		SetDisplay(not display)
