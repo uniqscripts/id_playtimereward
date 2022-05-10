@@ -46,11 +46,14 @@ AddEventHandler("id_playtimereward:addHour", function()
 end)
 
 QBCore.Functions.CreateCallback('id_playtimereward:getHour', function(source, cb)
-    local Player = QBCore.Functions.GetPlayer(source)
+    local Player = QBCore.Functions.GetPlayer(src)
+    local plicense = Player.PlayerData.license
+      if Player then
 
-	MySQL.scalar('SELECT hour FROM players WHERE license = ?', {license}, function(hour)
-        cb(hour)
-	end)
+     MySQL.scalar('SELECT hour FROM players WHERE license = ?', {plicense}, function(hour)
+          cb(hour)
+    end)
+      end
 end)
 
 QBCore.Functions.CreateCallback('id_playtimereward:isPlateTaken', function (source, cb, plate)
