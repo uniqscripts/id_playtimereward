@@ -23,20 +23,12 @@ AddEventHandler("id_playtimereward:addHour", function()
     local Player = QBCore.Functions.GetPlayer(source)
 
     if Player then
-        if(password ~= nil) then
-            if (password == randomkey) then
-                if playingforhour then
-	                MySQL.scalar('SELECT hour FROM players WHERE license = ?', {license}, function(hour)
-	                	if hour < GlobalState.Hours then
-                            MySQL.update.await('UPDATE players SET hour = hour + 1 WHERE license = ?', {license})
-	                	end
-	                end)
-                else
-                    DropPlayer(GlobalState.KickMessage)
-                end
-            else
-                DropPlayer(GlobalState.KickMessage)
-            end
+        if playingforhour then
+	        MySQL.scalar('SELECT hour FROM players WHERE license = ?', {license}, function(hour)
+	        	if hour < GlobalState.Hours then
+                    MySQL.update.await('UPDATE players SET hour = hour + 1 WHERE license = ?', {license})
+	        	end
+	        end)
         else
             DropPlayer(GlobalState.KickMessage)
         end
