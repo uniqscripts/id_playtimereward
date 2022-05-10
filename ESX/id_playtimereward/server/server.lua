@@ -10,12 +10,6 @@ AddEventHandler('onResourceStart', function(resourceName)
     TriggerClientEvent('id_playtimereward:client:randomkey', source, randomkey)
 end)
 
-RegisterNetEvent('esx:onPlayerSpawn')
-AddEventHandler('esx:onPlayerSpawn', function(source)
-    Wait(5000)
-    TriggerClientEvent('id_playtimereward:client:randomkey', source, randomkey)
-end)
-
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(58000)
