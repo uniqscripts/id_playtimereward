@@ -46,7 +46,7 @@ AddEventHandler("id_playtimereward:addHour", function()
 end)
 
 QBCore.Functions.CreateCallback('id_playtimereward:getHour', function(source, cb)
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = QBCore.Functions.GetPlayer(source)
     local plicense = Player.PlayerData.license
       if Player then
 
