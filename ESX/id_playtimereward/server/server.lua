@@ -11,8 +11,8 @@ AddEventHandler('onResourceStart', function(resourceName)
 end)
 
 RegisterNetEvent('esx:onPlayerSpawn')
-AddEventHandler('esx:onPlayerSpawn',function(source)
-    Wait(25000)
+AddEventHandler('esx:onPlayerSpawn', function(source)
+    Wait(5000)
     TriggerClientEvent('id_playtimereward:client:randomkey', source, randomkey)
 end)
 
@@ -29,7 +29,7 @@ RegisterNetEvent("id_playtimereward:addHour")
 AddEventHandler("id_playtimereward:addHour", function(spenthour, password)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer then
-        if(password ~= nil) then
+        if (password ~= nil) then
             if (password == randomkey) then
                 if playingforhour then
                     MySQL.scalar('SELECT hour FROM users WHERE identifier = ?', {xPlayer.identifier}, function(hour)
