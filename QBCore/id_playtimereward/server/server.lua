@@ -6,9 +6,9 @@ local randomkey = math.random(1000000000000, 9999999999999)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(58000)
+        Citizen.Wait(3480000)
         playingforhour = true
-        Citizen.Wait(2000)
+        Citizen.Wait(180000)
         playingforhour = false
     end
 end)
