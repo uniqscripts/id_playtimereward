@@ -14,7 +14,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(3480000)
         playingforhour = true
-        Citizen.Wait(120000)
+        Citizen.Wait(180000)
         playingforhour = false
     end
 end)
