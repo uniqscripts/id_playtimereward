@@ -1,5 +1,5 @@
 GlobalState.Hours = 24 -- how many hours players have to play for the reward
-GlobalState.Minutes = 59 -- do not touch (I don't even know why this is here :/)
+GlobalState.Minutes = 60 -- do not touch (I don't even know why this is here :/)
 
 GlobalState.Reward = 'vehicle' -- Can be "item", "vehicle" or "money"
 
