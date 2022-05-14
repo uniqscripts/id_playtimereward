@@ -1,8 +1,6 @@
 ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-local playingforhour = false
-
 local randomkey = math.random(1000000000000, 9999999999999)
 
 AddEventHandler('onResourceStart', function(resourceName)
@@ -10,28 +8,15 @@ AddEventHandler('onResourceStart', function(resourceName)
     TriggerClientEvent('id_playtimereward:client:randomkey', source, randomkey)
 end)
 
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait((GlobalState.Minutes - 1) * 60 * 1000)
-        playingforhour = true
-        Citizen.Wait(60010)
-        playingforhour = false
-    end
-end)
-
 RegisterNetEvent("id_playtimereward:addHour")
-AddEventHandler("id_playtimereward:addHour", function(spenthour, password)
+AddEventHandler("id_playtimereward:addHour", function()
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer then
-        if playingforhour then
-            MySQL.scalar('SELECT hour FROM users WHERE identifier = ?', {xPlayer.identifier}, function(hour)
-	            if hour < GlobalState.Hours then
-                    MySQL.update('UPDATE users SET hour = hour + 1 WHERE identifier = ?', {xPlayer.identifier})
-	            end
-	        end)
-        else
-            DropPlayer(GlobalState.KickMessage)
-        end
+        MySQL.scalar('SELECT hour FROM users WHERE identifier = ?', {xPlayer.identifier}, function(hour)
+	        if hour < GlobalState.Hours then
+                MySQL.update('UPDATE users SET hour = hour + 1 WHERE identifier = ?', {xPlayer.identifier})
+	        end
+	    end)
     end
 end)
 
