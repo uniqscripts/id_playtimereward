@@ -6,7 +6,7 @@
     <img src="https://i.imgur.com/QEc41ag.png" alt="Playtime Reward">
   </a>
 
-  <h3 align="center">Car Wash</h3>
+  <h3 align="center">Play Time Reward</h3>
 
   <p align="center">
     <a href="http://infinity-devt.com">Visit Our Website</a>
