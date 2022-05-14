@@ -1,17 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-local playingforhour = false
-
 local randomkey = math.random(1000000000000, 9999999999999)
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait((GlobalState.Minutes - 1) * 60 * 1000)
-        playingforhour = true
-        Citizen.Wait(60010)
-        playingforhour = false
-    end
-end)
 
 AddEventHandler('onResourceStart', function(resourceName)
 	if (GetCurrentResourceName() ~= resourceName) then return end
@@ -23,15 +12,11 @@ AddEventHandler("id_playtimereward:addHour", function()
     local Player = QBCore.Functions.GetPlayer(source)
 
     if Player then
-        if playingforhour then
-	        MySQL.scalar('SELECT hour FROM players WHERE license = ?', {license}, function(hour)
-	        	if hour < GlobalState.Hours then
-                    MySQL.update.await('UPDATE players SET hour = hour + 1 WHERE license = ?', {license})
-	        	end
-	        end)
-        else
-            DropPlayer(GlobalState.KickMessage)
-        end
+        MySQL.scalar('SELECT hour FROM users WHERE identifier = ?', {xPlayer.identifier}, function(hour)
+	        if hour < GlobalState.Hours then
+                MySQL.update('UPDATE users SET hour = hour + 1 WHERE identifier = ?', {xPlayer.identifier})
+	        end
+	end)
     end
 end)
 
