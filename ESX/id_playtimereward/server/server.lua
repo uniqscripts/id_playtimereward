@@ -12,9 +12,9 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(59 * 60 * 1000)
+        Citizen.Wait((GlobalState.Minutes - 1) * 60 * 1000)
         playingforhour = true
-        Citizen.Wait(3 * 60 * 1000)
+        Citizen.Wait(60010)
         playingforhour = false
     end
 end)
