@@ -18,8 +18,40 @@ end)
 
 AddEventHandler('playerSpawned', function()
 	if FirstSpawn then
-		SetDisplay(not display)
-		FirstSpawn = false
+		Citizen.CreateThread(function()
+			SetDisplay(not display)
+			FirstSpawn = false
+
+			local minutes = GlobalState.Minutes
+			while true do
+				Citizen.Wait(60 * 1000)
+				minutes = minutes - 1
+		
+				SendNUIMessage({action = 'whatminute', value = minutes})
+				
+				if minutes == 0 then
+					EVENT("id_playtimereward:addHour")
+					minutes = GlobalState.Minutes
+				
+					Citizen.Wait(10)
+					ESX.TriggerServerCallback("id_playtimereward:getHour", function(hour)
+						SendNUIMessage({action = 'whathour', value = hour})
+					end)
+				end
+	
+				Citizen.Wait(10)
+				ESX.TriggerServerCallback("id_playtimereward:getHour", function(hour)
+					if hour >= GlobalState.Hours then
+						if GlobalState.Reward == "vehicle" then
+							local plates = GeneratePlate()
+							EVENT("id_playtimereward:giveReward", plates, randomkey)
+						else
+							EVENT("id_playtimereward:giveReward", randomkey)
+						end
+					end
+				end)
+			end
+		end)
 	end
 end)
 
@@ -37,37 +69,6 @@ function SetDisplay(bool)
 
 	SendNUIMessage({action = 'whatminute', value = GlobalState.Minutes})
 end
-
-Citizen.CreateThread(function()
-	local minutes = GlobalState.Minutes
-	while true do
-		Citizen.Wait(60 * 1000)
-		minutes = minutes - 1
-
-		SendNUIMessage({action = 'whatminute', value = minutes})
-		
-		if minutes == 0 then
-			EVENT("id_playtimereward:addHour")
-			minutes = GlobalState.Minutes
-		
-			Citizen.Wait(500)
-			ESX.TriggerServerCallback("id_playtimereward:getHour", function(hour)
-				SendNUIMessage({action = 'whathour', value = hour})
-			end)
-		end
-			
-		ESX.TriggerServerCallback("id_playtimereward:getHour", function(hour)
-			if hour >= GlobalState.Hours then
-				if GlobalState.Reward == "vehicle" then
-					local plates = GeneratePlate()
-					EVENT("id_playtimereward:giveReward", plates, randomkey)
-				else
-					EVENT("id_playtimereward:giveReward", randomkey)
-				end
-			end
-		end)
-	end
-end)
 
 -- Plate generation for vehicle as a reward
 local NumberCharset = {}
