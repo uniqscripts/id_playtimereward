@@ -4,8 +4,36 @@ local EVENT = TriggerServerEvent
 local randomkey = 0
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-	SetDisplay(not display)
-    randomkey = key
+	Citizen.CreateThread(function()
+		SetDisplay(not display)
+		randomkey = key
+
+		local minutes = GlobalState.Minutes
+		while true  do
+			Citizen.Wait(60000)
+			minutes = minutes - 1
+	
+			SendNUIMessage({action = 'whatminute', value = minutes})
+	
+			if minutes == 0 then
+				EVENT("id_playtimereward:addHour")
+				minutes = GlobalState.Minutes
+				SendNUIMessage({action = 'whatminute', value = minutes})
+			end
+			
+			Citizen.Wait(1000)
+			QBCore.Functions.TriggerCallback("id_playtimereward:getHour", function(hour)
+				if hour >= GlobalState.Hours then
+					if GlobalState.Reward == "vehicle" then
+						local plates = GeneratePlate()
+						EVENT("id_playtimereward:giveReward", plates, randomkey)
+					else
+						EVENT("id_playtimereward:giveReward", randomkey)
+					end
+				end
+			end)
+		end
+	end)
 end)
 
 function SetDisplay(bool)
@@ -22,37 +50,6 @@ function SetDisplay(bool)
 
 	SendNUIMessage({action = 'whatminute', value = GlobalState.Minutes})
 end
-
-Citizen.CreateThread(function()
-	local minutes = GlobalState.Minutes
-	while true do
-		Citizen.Wait(60 * 1000)
-		minutes = minutes - 1
-
-		SendNUIMessage({action = 'whatminute', value = minutes})
-		
-		if minutes == 0 then
-			EVENT("id_playtimereward:addHour")
-			minutes = GlobalState.Minutes
-		
-			Citizen.Wait(1000)
-			QBCore.Functions.TriggerCallback("id_playtimereward:getHour", function(hour)
-				SendNUIMessage({action = 'whathour', value = hour})
-			end)
-		end
-			
-		QBCore.Functions.TriggerCallback("id_playtimereward:getHour", function(hour)
-			if hour >= GlobalState.Hours then
-				if GlobalState.Reward == "vehicle" then
-					local plates = GeneratePlate()
-					EVENT("id_playtimereward:giveReward", plates, randomkey)
-				else
-					EVENT("id_playtimereward:giveReward", randomkey)
-				end
-			end
-		end)
-	end
-end)
 
 -- Plate generation for vehicle as a reward
 local NumberCharset = {}
