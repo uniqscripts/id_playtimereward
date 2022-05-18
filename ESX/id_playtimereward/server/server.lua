@@ -1,20 +1,30 @@
 ESX = nil
+local ActivePlayerTimers = {}
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 local randomkey = math.random(1000000000000, 9999999999999)
 
 AddEventHandler('onResourceStart', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then return end
+    local xPlayer = ESX.GetPlayerFromId(source)
     TriggerClientEvent('id_playtimereward:client:randomkey', source, randomkey)
+    ActivePlayerTimers[xPlayer.source] = os.time()
 end)
 
 RegisterNetEvent("id_playtimereward:addHour")
 AddEventHandler("id_playtimereward:addHour", function()
     local xPlayer = ESX.GetPlayerFromId(source)
+
+    if (math.ceil((os.time() - ActivePlayerTimers[xPlayer.source])/60) < (GlobalState.Minutes - 1)) then
+        DropPlayer(xPlayer.source, GlobalState.KickMessage)
+        return
+    end
+
     if xPlayer then
         MySQL.scalar('SELECT hour FROM users WHERE identifier = ?', {xPlayer.identifier}, function(hour)
 	        if hour < GlobalState.Hours then
                 MySQL.update('UPDATE users SET hour = hour + 1 WHERE identifier = ?', {xPlayer.identifier})
+                ActivePlayerTimers[xPlayer.source] = os.time()
 	        end
 	    end)
     end
