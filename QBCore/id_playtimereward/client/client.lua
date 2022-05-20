@@ -9,6 +9,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 		randomkey = key
 
 		local minutes = GlobalState.Minutes
+		TriggerServerEvent('id_playtimereward:server:playerLoaded')
 		while true  do
 			Citizen.Wait(60000)
 			minutes = minutes - 1
@@ -19,21 +20,25 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 				EVENT("id_playtimereward:addHour")
 				minutes = GlobalState.Minutes
 				SendNUIMessage({action = 'whatminute', value = minutes})
-			end
-			
-			Citizen.Wait(1000)
-			QBCore.Functions.TriggerCallback("id_playtimereward:getHour", function(hour)
-				if hour >= GlobalState.Hours then
-					if GlobalState.Reward == "vehicle" then
-						local plates = GeneratePlate()
-						EVENT("id_playtimereward:giveReward", plates, randomkey)
-					else
-						EVENT("id_playtimereward:giveReward", randomkey)
+
+				QBCore.Functions.TriggerCallback("id_playtimereward:getHour", function(hour)
+					SendNUIMessage({action = 'whathour', value = hour})
+					if hour >= GlobalState.Hours then
+						if GlobalState.Reward == "vehicle" then
+							local plates = GeneratePlate()
+							EVENT("id_playtimereward:giveReward", plates)
+						else
+							EVENT("id_playtimereward:giveReward")
+						end
 					end
-				end
-			end)
+				end)
+			end
 		end
 	end)
+end)
+
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+	TriggerServerEvent('id_playtimereward:server:playerUnloaded')
 end)
 
 function SetDisplay(bool)
