@@ -119,6 +119,7 @@ end
 function GetRandomLetter(length)
 	Citizen.Wait(1)
 	math.randomseed(GetGameTimer())
+	
 	if length > 0 then
 		return GetRandomLetter(length - 1) .. Charset[math.random(1, #Charset)]
 	else
