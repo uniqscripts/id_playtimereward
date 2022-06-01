@@ -8,7 +8,7 @@ AddEventHandler('onResourceStart', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then return end
     local xPlayer = ESX.GetPlayerFromId(source)
     TriggerClientEvent('id_playtimereward:client:randomkey', source, randomkey)
-    ActivePlayerTimers[xPlayer.source] = os.time()
+    ActivePlayerTimers[source] = os.time()
 end)
 
 RegisterNetEvent("id_playtimereward:addHour")
