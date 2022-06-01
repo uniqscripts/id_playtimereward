@@ -6,7 +6,6 @@ local randomkey = math.random(1000000000000, 9999999999999)
 
 AddEventHandler('onResourceStart', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then return end
-    local xPlayer = ESX.GetPlayerFromId(source)
     TriggerClientEvent('id_playtimereward:client:randomkey', source, randomkey)
     ActivePlayerTimers[source] = os.time()
 end)
