@@ -1,40 +1,14 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local ActivePlayerTimers = {}
-local randomkey = math.random(1000000000000, 9999999999999)
 
-AddEventHandler('onResourceStart', function(resourceName)
-	if (GetCurrentResourceName() ~= resourceName) then return end
-    TriggerClientEvent('id_playtimereward:client:randomkey', source, randomkey)
-end)
-
-RegisterNetEvent('id_playtimereward:server:playerLoaded')
-AddEventHandler('id_playtimereward:server:playerLoaded', function ()
-    local src = source
-    ActivePlayerTimers[src] = os.time()
-end)
-
-RegisterNetEvent('id_playtimereward:server:playerUnloaded')
-AddEventHandler('id_playtimereward:server:playerUnloaded', function()
-    local src = source
-    ActivePlayerTimers[src] = nil   -- Free memory
-end)
-
-RegisterNetEvent("id_playtimereward:addHour")
-AddEventHandler("id_playtimereward:addHour", function()
+QBCore.Functions.CreateCallback('id_playtimereward:addHour', function(source, cb)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local cid = Player.PlayerData.citizenid
-
-    if (math.ceil((os.time() - ActivePlayerTimers[src])/60) < (GlobalState.Minutes - 1)) then
-        DropPlayer(src, GlobalState.KickMessage)
-        return
-    end
 
     if Player then
         MySQL.scalar('SELECT hour FROM players WHERE citizenid = ?', {cid}, function(hour)
             if hour < GlobalState.Hours then
                 MySQL.update.await('UPDATE players SET hour = hour + 1 WHERE citizenid = ?', {cid})
-                ActivePlayerTimers[src] = os.time()
             end
         end)  
     end
