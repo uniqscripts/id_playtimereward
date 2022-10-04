@@ -1,12 +1,10 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local hours
 local EVENT = TriggerServerEvent
-local randomkey = 0
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 	Citizen.CreateThread(function()
 		SetDisplay(not display)
-		randomkey = key
 
 		local minutes = GlobalState.Minutes
 		TriggerServerEvent('id_playtimereward:server:playerLoaded')
@@ -17,7 +15,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 			SendNUIMessage({action = 'whatminute', value = minutes})
 	
 			if minutes == 0 then
-				EVENT("id_playtimereward:addHour")
+				QBCore.Functions.TriggerCallback("id_playtimereward:addHour", function() end)
 				minutes = GlobalState.Minutes
 				SendNUIMessage({action = 'whatminute', value = minutes})
 
