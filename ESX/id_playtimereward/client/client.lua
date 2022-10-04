@@ -2,7 +2,6 @@ ESX = nil
 local FirstSpawn = true
 local hours
 local EVENT = TriggerServerEvent
-local randomkey = 0
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -10,12 +9,6 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 	end
 end)
-
-RegisterNetEvent('id_playtimereward:client:randomkey')
-AddEventHandler('id_playtimereward:client:randomkey', function(key)
-    randomkey = key
-end)
-
 AddEventHandler('playerSpawned', function()
 	if FirstSpawn then
 		Citizen.CreateThread(function()
@@ -30,7 +23,7 @@ AddEventHandler('playerSpawned', function()
 				SendNUIMessage({action = 'whatminute', value = minutes})
 				
 				if minutes == 0 then
-					EVENT("id_playtimereward:addHour")
+					ESX.TriggerServerCallback('id_playtimereward:addHour', function() end)
 					minutes = GlobalState.Minutes
 				
 					Citizen.Wait(10)
@@ -44,9 +37,9 @@ AddEventHandler('playerSpawned', function()
 					if hour >= GlobalState.Hours then
 						if GlobalState.Reward == "vehicle" then
 							local plates = GeneratePlate()
-							EVENT("id_playtimereward:giveReward", plates, randomkey)
+							EVENT("id_playtimereward:giveReward", plates)
 						else
-							EVENT("id_playtimereward:giveReward", randomkey)
+							EVENT("id_playtimereward:giveReward")
 						end
 					end
 				end)
