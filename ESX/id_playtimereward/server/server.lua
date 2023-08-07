@@ -1,5 +1,5 @@
 ESX = nil
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+ESX = exports["es_extended"]:getSharedObject()
 
 ESX.RegisterServerCallback('id_playtimereward:addHour', function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)

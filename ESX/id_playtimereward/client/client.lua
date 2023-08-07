@@ -3,12 +3,8 @@ local FirstSpawn = true
 local hours
 local EVENT = TriggerServerEvent
 
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-end)
+ESX = exports["es_extended"]:getSharedObject()
+
 AddEventHandler('playerSpawned', function()
 	if FirstSpawn then
 		Citizen.CreateThread(function()
