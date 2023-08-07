@@ -3,7 +3,7 @@
 <br />
 <div align="center">
   <a href="https://infinity-devt.com">
-    <img src="https://i.imgur.com/QEc41ag.png" alt="Playtime Reward">
+    <img src="https://forum.cfx.re/uploads/default/optimized/4X/d/8/6/d8651589ea700bab3751aea53aaaff39058e71c8_2_690x388.jpeg" alt="Playtime Reward">
   </a>
 
   <h3 align="center">Playtime Reward</h3>
